@@ -1,7 +1,9 @@
 //! Comprehensive tests for pizza-analysis-portuguese.
 
 use pizza_analysis_portuguese::*;
-use pizza_engine::analysis::{AnalysisFactory, Token, TokenFilter};
+use pizza_engine::analysis::AnalysisFactory;
+use pizza_engine::analysis::Token;
+use pizza_engine::analysis::TokenFilter;
 
 fn make_token(term: &str) -> Token<'_> {
     Token::new(term, 0, term.len() as u32, 0)
@@ -105,7 +107,9 @@ fn stop_construction() {
 #[test]
 fn stop_filters_common_words() {
     let f = PortugueseStopFilter::new();
-    let stop_words = ["de", "a", "o", "que", "e", "do", "da", "em", "um", "para", "com", "não"];
+    let stop_words = [
+        "de", "a", "o", "que", "e", "do", "da", "em", "um", "para", "com", "não",
+    ];
     for word in &stop_words {
         let mut token = make_token(word);
         let (deleted, _) = f.filter(&mut token);
