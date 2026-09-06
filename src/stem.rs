@@ -52,12 +52,18 @@ fn stem_portuguese_light(word: &str) -> String {
         result.push_str("el");
         return result;
     }
-    if result.ends_with("os") || result.ends_with("as") || result.ends_with("es") {
-        result.truncate(result.len() - 2);
-        return result;
-    }
+    // vowel + s: singularize by dropping just the "s" (gatos → gato)
     if result.ends_with('s') {
-        result.pop();
+        let mut chars = result.chars();
+        let _last = chars.next_back();
+        let prev = chars.next_back();
+        if matches!(
+            prev,
+            Some('a' | 'e' | 'i' | 'o' | 'u' | 'á' | 'é' | 'í' | 'ó' | 'ú')
+        ) {
+            result.pop();
+            return result;
+        }
     }
 
     result
